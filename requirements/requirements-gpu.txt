@@ -1,4 +1,4 @@
-cardio-rl[gpu]
+jax[cuda12]
 distrax
 flax
 rlax

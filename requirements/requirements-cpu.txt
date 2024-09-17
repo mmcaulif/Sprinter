@@ -1,4 +1,4 @@
-cardio-rl[cpu]
+jax[cpu]
 distrax
 flax
 rlax
