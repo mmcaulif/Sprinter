@@ -1,0 +1,10 @@
+*.pyc
+__pycache__
+.vscode
+build
+*.egg-info
+run
+dist
+*/outputs
+*/tb_logs
+*_cache
