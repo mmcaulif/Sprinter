@@ -10,9 +10,13 @@ precommit_run:
 .PHONY: install_cpu
 install_cpu:
 	pip install -e ".[dev,cpu]"
+	cd Cardio
+	pip install --no-deps -e .
 	make precommit_setup
 
 .PHONY: install_gpu
 install_gpu:
 	pip install -e ".[dev,gpu]"
+	cd Cardio
+	pip install --no-deps -e .
 	make precommit_setup
