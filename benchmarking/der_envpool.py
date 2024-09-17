@@ -1,14 +1,14 @@
 from typing import NamedTuple
 
+import cardio_rl as crl
 import envpool
 import flax.linen as nn
 import jax.debug
 import jax.numpy as jnp
+from cardio_rl.wrappers import EnvPoolWrapper
 from tqdm import trange
 
-import cardio_rl as crl
-from cardio_rl.wrappers import EnvPoolWrapper
-from agents.der import Der
+from sprinter.agents.der import Der
 
 # https://github.com/google-deepmind/dqn_zoo/blob/master/dqn_zoo/rainbow/agent.py
 # https://github.com/google/dopamine/blob/master/dopamine/jax/agents/full_rainbow/full_rainbow_agent.py

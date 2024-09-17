@@ -1,9 +1,10 @@
+import cardio_rl as crl
 import flax.linen as nn
 import gymnasium as gym
 import jax.numpy as jnp
 
-import cardio_rl as crl
-from agents.dqn import DQN
+import sprinter
+from sprinter.agents.dqn import DQN
 
 
 class Q_critic(nn.Module):
@@ -11,7 +12,7 @@ class Q_critic(nn.Module):
 
     @nn.compact
     def __call__(self, state):
-        z = crl.nn.MinAtarEncoder()(state)
+        z = sprinter.nn.MinAtarEncoder()(state)
         z = jnp.reshape(z, -1)
         z = nn.relu(nn.Dense(128)(z))
         q = nn.Dense(self.act_dim)(z)

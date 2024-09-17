@@ -3,13 +3,14 @@
 Paper: https://github.com/JohanSamir/rainbow_extend/blob/main/lifting_veil/Configs/rainbow_invaders.gin
 """
 
+import cardio_rl as crl
 import flax.linen as nn
 import gymnasium as gym
 import jax
 import jax.numpy as jnp
-from agents.rainbow import NetworkOutputs, Rainbow  # type: ignore
 
-import cardio_rl as crl
+import sprinter
+from sprinter.agents.rainbow import NetworkOutputs, Rainbow  # type: ignore
 
 
 class Q_critic(nn.Module):
@@ -20,12 +21,12 @@ class Q_critic(nn.Module):
     def __call__(self, state):
         n_atoms = len(self.support)
 
-        z = crl.nn.MinAtarEncoder()(state)
+        z = sprinter.nn.MinAtarEncoder()(state)
         z = jnp.reshape(z, -1)
-        z = nn.relu(crl.nn.NoisyDense(128)(z))
+        z = nn.relu(sprinter.nn.NoisyDense(128)(z))
 
-        v = crl.nn.NoisyDense(n_atoms)(z)
-        a = crl.nn.NoisyDense(self.act_dim * n_atoms)(z)
+        v = sprinter.nn.NoisyDense(n_atoms)(z)
+        a = sprinter.nn.NoisyDense(self.act_dim * n_atoms)(z)
 
         v = jnp.expand_dims(v, -2)
         a = jnp.reshape(a, (self.act_dim, n_atoms))

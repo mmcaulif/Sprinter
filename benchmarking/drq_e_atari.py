@@ -1,10 +1,11 @@
+import cardio_rl as crl
 import flax.linen as nn
 import gymnasium as gym
 import jax.numpy as jnp
-
-import cardio_rl as crl
 from cardio_rl.wrappers import AtariWrapper
-from agents.drq_e import DrQ
+
+import sprinter
+from sprinter.agents.drq_e import DrQ
 
 # class Q_critic(nn.Module):
 #     act_dim: int
@@ -30,7 +31,7 @@ class Q_critic(nn.Module):
 
     @nn.compact
     def __call__(self, state):
-        z = crl.nn.DerEncoder()(state)
+        z = sprinter.nn.DerEncoder()(state)
         z = jnp.reshape(z, (-1))
 
         z = nn.relu(nn.Dense(256)(z))

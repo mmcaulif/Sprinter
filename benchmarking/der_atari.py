@@ -1,13 +1,14 @@
 from typing import NamedTuple
 
+import cardio_rl as crl
 import flax.linen as nn
 import gymnasium as gym
 import jax.debug
 import jax.numpy as jnp
-
-import cardio_rl as crl
 from cardio_rl.wrappers import AtariWrapper
-from agents.der import Der
+
+import sprinter
+from sprinter.agents.der import Der
 
 # https://github.com/google-deepmind/dqn_zoo/blob/master/dqn_zoo/rainbow/agent.py
 # https://github.com/google/dopamine/blob/master/dopamine/jax/agents/full_rainbow/full_rainbow_agent.py
@@ -29,12 +30,12 @@ class Q_critic(nn.Module):
     def __call__(self, state, key, eval=False):
         n_atoms = len(self.support)
 
-        z = crl.nn.DerEncoder()(state)
+        z = sprinter.nn.DerEncoder()(state)
         z = jnp.reshape(z, (-1))
 
-        z = nn.relu(crl.nn.NoisyDense(256)(z, key, eval))
-        v = crl.nn.NoisyDense(n_atoms)(z, key, eval)
-        a = crl.nn.NoisyDense(self.act_dim * n_atoms)(z, key, eval)
+        z = nn.relu(sprinter.nn.NoisyDense(256)(z, key, eval))
+        v = sprinter.nn.NoisyDense(n_atoms)(z, key, eval)
+        a = sprinter.nn.NoisyDense(self.act_dim * n_atoms)(z, key, eval)
 
         v = jnp.expand_dims(v, -2)
         a = jnp.reshape(a, (self.act_dim, n_atoms))
