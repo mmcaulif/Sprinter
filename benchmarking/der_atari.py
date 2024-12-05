@@ -5,6 +5,8 @@ import flax.linen as nn
 import gymnasium as gym
 import jax.debug
 import jax.numpy as jnp
+
+# from cardio_rl.wrappers import AtariWrapper
 from cardio_rl.wrappers import AtariWrapper
 
 import sprinter
@@ -12,9 +14,6 @@ from sprinter.agents.der import Der
 
 # https://github.com/google-deepmind/dqn_zoo/blob/master/dqn_zoo/rainbow/agent.py
 # https://github.com/google/dopamine/blob/master/dopamine/jax/agents/full_rainbow/full_rainbow_agent.py
-"""
-Also get random crashes around ~40,000 environment steps with envpool, doesn't seem to happen for gymnasium Atari
-"""
 
 
 class NetworkOutputs(NamedTuple):
@@ -69,13 +68,23 @@ def main():
         ),
     )
 
-    runner = crl.OffPolicyRunner(
+    # runner = crl.OffPolicyRunner(
+    #     env=env,
+    #     agent=agent,
+    #     buffer=crl.buffers.PrioritisedBuffer(env=env, capacity=100_000, n_steps=10),
+    #     batch_size=32,
+    #     warmup_len=1_600,
+    #     n_step=10,
+    #     eval_env=eval_env,
+    # )
+
+    runner = crl.Runner.off_policy(
         env=env,
         agent=agent,
-        buffer=crl.buffers.PrioritisedBuffer(env=env, capacity=100_000, n_steps=10),
-        batch_size=32,
+        buffer=crl.buffers.PrioritisedBuffer(
+            env=env, capacity=100_000, batch_size=32, n_steps=10
+        ),
         warmup_len=1_600,
-        n_step=10,
         eval_env=eval_env,
     )
 

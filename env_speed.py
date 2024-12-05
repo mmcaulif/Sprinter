@@ -1,9 +1,10 @@
-import gymnasium as gym
 import time
 
+import gymnasium as gym
 from cardio_rl.wrappers import AtariWrapper
 
 COUNT = 100_000
+
 
 def speed_test(env: gym.Env):
     start = time.time()

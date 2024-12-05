@@ -7,40 +7,43 @@ from cardio_rl.wrappers import AtariWrapper
 import sprinter
 from sprinter.agents.drq_e import DrQ
 
-# class Q_critic(nn.Module):
-#     act_dim: int
-
-#     @nn.compact
-#     def __call__(self, state):
-#         z = crl.nn.NatureEncoder()(state)
-#         z = jnp.reshape(z, (-1))
-
-#         z = nn.relu(nn.Dense(512)(z))
-#         v = nn.Dense(1)(z)
-#         a = nn.Dense(self.act_dim)(z)
-
-#         v = jnp.expand_dims(v, -2)
-#         q = v + a - a.mean(-1, keepdims=True)
-#         return q.squeeze()
+# from cardio_rl.wrappers import AtariGymnasiumWrapper as AtariWrapper
 
 
 class Q_critic(nn.Module):
-    """Der Network, not actually used by DrQ but faster."""
-
     act_dim: int
 
     @nn.compact
     def __call__(self, state):
-        z = sprinter.nn.DerEncoder()(state)
+        z = sprinter.nn.NatureEncoder()(state)
         z = jnp.reshape(z, (-1))
 
-        z = nn.relu(nn.Dense(256)(z))
+        z = nn.relu(nn.Dense(512)(z))
         v = nn.Dense(1)(z)
         a = nn.Dense(self.act_dim)(z)
 
         v = jnp.expand_dims(v, -2)
         q = v + a - a.mean(-1, keepdims=True)
         return q.squeeze()
+
+
+# class Q_critic(nn.Module):
+#     """Der Network, not actually used by DrQ but faster."""
+
+#     act_dim: int
+
+#     @nn.compact
+#     def __call__(self, state):
+#         z = sprinter.nn.DerEncoder()(state)
+#         z = jnp.reshape(z, (-1))
+
+#         z = nn.relu(nn.Dense(256)(z))
+#         v = nn.Dense(1)(z)
+#         a = nn.Dense(self.act_dim)(z)
+
+#         v = jnp.expand_dims(v, -2)
+#         q = v + a - a.mean(-1, keepdims=True)
+#         return q.squeeze()
 
 
 def main():
