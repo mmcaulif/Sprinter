@@ -54,14 +54,12 @@ def main():
         schedule_len=100_000,
     )
 
-    runner = crl.OffPolicyRunner(
+    runner = crl.Runner.off_policy(
         env=env,
         agent=agent,
         buffer=crl.buffers.PrioritisedBuffer(env=env, capacity=100_000, n_steps=3),
         rollout_len=4,
-        batch_size=32,
         warmup_len=1_000,
-        n_step=3,
     )
 
     def how_many_rollouts(env_steps: int, warmup_len: int, rollout_len: int) -> int:
