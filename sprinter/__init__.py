@@ -1,10 +1,9 @@
-from sprinter import agents, losses, nn, utils
+from sprinter import agents, nn
 
 __all__ = [
     # core classes
     # module folders
     "agents",
-    "losses",
     "nn",
     "utils",
 ]

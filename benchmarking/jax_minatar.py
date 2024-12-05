@@ -40,12 +40,11 @@ def main():
         use_rmsprop=True,
     )
 
-    runner = crl.OffPolicyRunner(
+    runner = crl.Runner.off_policy(
         env=env,
         agent=agent,
-        capacity=100_000,
+        buffer_kwargs={'batch_size': 32, 'capacity': 100_000},
         rollout_len=1,
-        batch_size=32,
         warmup_len=5_000,
     )
 
